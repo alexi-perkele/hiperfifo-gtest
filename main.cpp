@@ -22,12 +22,12 @@ int main() {
 
 
     io::stream_buffer<io::file_descriptor_source> fpstream(
-            io::file_descriptor_source(hiper_fifo.pipeFd()[0], io::never_close_handle) );
+            io::file_descriptor_source(hiper_fifo.pipeFd(STDERR_FILENO)[0], io::never_close_handle) );
 
     std::istream in(&fpstream);
     std::string line;
 
-
+    
     if( hpipe.good()){
       hpipe << "ya.ru" << endl;
     }
@@ -35,7 +35,6 @@ int main() {
 
     while (in)
     {
-
         std::getline(in, line);
         cout << "piped out!!! " << line.length() << endl;
     //    std::cout << line << std::endl;

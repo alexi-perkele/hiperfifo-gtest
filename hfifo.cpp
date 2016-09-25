@@ -17,24 +17,29 @@ void hfifo::run()
 
   std::cout << "RUN" << std::endl;
     
-    pipe(childToParent);
-  //  dup2( childToParent[ WRITE_FD ], STDOUT_FILENO );
-    dup2( childToParent[ WRITE_FD ], STDERR_FILENO );
+    pipe(stdout_procfd);
+    pipe(stderr_prcofd);
     
-    _pid = fork();
+    _pid = fork();   
     
     if (_pid == 0){
-      // Child
-     std::cout << "will exec" << std::endl;
-      execl("hiperfifo/hiperfifo", " ", NULL);  
-      close( childToParent [ READ_FD  ] );
+      // Child      
+      dup2( stdout_procfd[ WRITE_FD ], STDOUT_FILENO );
+      dup2( stderr_prcofd[ WRITE_FD ], STDERR_FILENO );
+      
+      std::cout << "will exec" << std::endl;
+      execl("hiperfifo/hiperfifo", "hiperfifo", NULL); 
+      
+      close( stdout_procfd [ READ_FD  ] );
+      close( stderr_prcofd [ READ_FD  ] );
     }
     else if (_pid > 0)
     {
       // Parent
       _running = true;
      
-      close( childToParent [ WRITE_FD ] );
+      close( stdout_procfd[ WRITE_FD ] );
+      close( stderr_prcofd[ WRITE_FD ] );
       
       sleep(1); // let child create pipe
     }
@@ -45,9 +50,18 @@ void hfifo::run()
   
 }
 
-const int* hfifo::pipeFd() const
+const int* hfifo::pipeFd(const int fd) const
 {
-
+  switch(fd)
+  {
+    case STDOUT_FILENO: 
+      return stdout_procfd;
+    case STDERR_FILENO:
+      return stderr_prcofd;
+    default: 
+      return stderr_prcofd;
+  }
+  
 }
 
 hfifo::~hfifo()

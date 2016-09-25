@@ -5,7 +5,7 @@ class hfifo {
 public:  
   hfifo();
   void run();
-  const int* pipeFd() const;
+  const int* pipeFd(const int) const;
   ~hfifo();
   
 private: 
@@ -18,7 +18,8 @@ private:
     WRITE_FD = 1
   };
   
-  int childToParent[2];
+  int stdout_procfd[2];
+  int stderr_prcofd[2];
   
   // No implimintation for this:
   hfifo (const hfifo&);
