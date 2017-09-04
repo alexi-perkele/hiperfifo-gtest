@@ -1,18 +1,12 @@
-#include <unistd.h>
-#include <stdlib.h>
-#include <signal.h>
-#include <iostream>
-#include <fstream>
 #include "hfifo.h"
 
 
-
-hfifo::hfifo() : _running(false), _pid(-1), _status(1)
+Hfifo::Hfifo() : _running(false), _pid(-1), _status(1)
 {
 
 }
 
-void hfifo::run()
+void Hfifo::run()
 {
 
   std::cout << "RUN" << std::endl;
@@ -33,8 +27,7 @@ void hfifo::run()
       close( stdout_procfd [ READ_FD  ] );
       close( stderr_prcofd [ READ_FD  ] );
     }
-    else if (_pid > 0)
-    {
+    else if (_pid > 0){
       // Parent
       _running = true;
      
@@ -50,7 +43,7 @@ void hfifo::run()
   
 }
 
-const int* hfifo::pipeFd(const int fd) const
+const int* Hfifo::pipeFd(const int fd) const
 {
   switch(fd)
   {
@@ -64,9 +57,9 @@ const int* hfifo::pipeFd(const int fd) const
   
 }
 
-hfifo::~hfifo()
+Hfifo::~Hfifo()
 {
-    if(_running){
+    if(_running && _pid!=0){
       kill(_pid, SIGINT);
     }
 }

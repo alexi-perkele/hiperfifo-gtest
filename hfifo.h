@@ -1,12 +1,19 @@
 #ifndef HFIFO_H
 #define HFIFO_H
 
-class hfifo {
+#include <unistd.h>
+#include <stdlib.h>
+#include <signal.h>
+#include <iostream>
+#include <fstream>
+#include <map>
+
+class Hfifo {
 public:  
-  hfifo();
+    Hfifo();
   void run();
   const int* pipeFd(const int) const;
-  ~hfifo();
+    ~Hfifo();
   
 private: 
   bool _running;
@@ -21,9 +28,10 @@ private:
   int stdout_procfd[2];
   int stderr_prcofd[2];
   
+ 
   // No implimintation for this:
-  hfifo (const hfifo&);
-  hfifo& operator = (const hfifo&);
+    Hfifo (const Hfifo&);
+    Hfifo& operator = (const Hfifo&);
   
 };
 
