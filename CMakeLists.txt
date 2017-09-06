@@ -10,7 +10,7 @@ include_directories(${GTEST_INCLUDE_DIRS})
 
 add_subdirectory(hiperfifo)
 
-set(SOURCE_FILES main.cpp hfifo.cpp)
+set(SOURCE_FILES main.cpp hfifo.cpp hfifo_test.cpp)
 
 add_executable(runtest ${SOURCE_FILES})
 
