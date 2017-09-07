@@ -34,7 +34,9 @@ add_executable(runtest ${SOURCE_FILES})
 
 target_link_libraries(runtest gtest_main pthread ${Boost_LIBRARIES})
 
-
+add_custom_command(TARGET runtest POST_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy
+                       ${CMAKE_SOURCE_DIR}/longlongurl $<TARGET_FILE_DIR:runtest>)
 
 
 
