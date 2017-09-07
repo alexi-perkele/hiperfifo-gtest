@@ -28,7 +28,7 @@ class Hfifo
             };
 
         int stdout_procfd[2];
-        int stderr_prcofd[2];
+        int stderr_procfd[2];
 
 
         // No implimintation for this:

@@ -1,6 +1,7 @@
+#pragma once
+
 #include <iostream>
 #include <fstream>
-#pragma once
 #include <boost/iostreams/device/file_descriptor.hpp>
 #include <boost/iostreams/stream.hpp>
 #include <boost/iostreams/stream_buffer.hpp>
@@ -8,6 +9,7 @@
 #include <memory>
 #include <vector>
 #include <unordered_map>
+#include <gtest/gtest.h>
 #include "hfifo.hpp"
 
 
@@ -24,6 +26,7 @@ using HyperMap = std::unordered_map<std::string, std::string>;
     void init();
     HyperMap run_test(const std::string& url);
     void process_data(const std::vector<std::string>& data);
+ 
     ~HfifoTest();
     
 private:

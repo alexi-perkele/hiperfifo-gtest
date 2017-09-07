@@ -8,10 +8,8 @@ Hfifo::Hfifo() : _running ( false ), _pid ( -1 ), _status ( false )
 void Hfifo::run()
     {
 
-    std::cout << "RUN" << std::endl;
-
     pipe ( stdout_procfd );
-    pipe ( stderr_prcofd );
+    pipe ( stderr_procfd );
 
     _pid = fork();
 
@@ -19,12 +17,14 @@ void Hfifo::run()
         {
         // Child
         dup2 ( stdout_procfd[ WRITE_FD ], STDOUT_FILENO );
-        dup2 ( stderr_prcofd[ WRITE_FD ], STDERR_FILENO );
+        dup2 ( stderr_procfd[ WRITE_FD ], STDERR_FILENO );
 
-        execl ( "hiperfifo/hiperfifo", "hiperfifo", NULL );
+        execl ( "hiperfifo/hiperfifo", "hiperfifo", NULL ); //TODO bring to to program parameters
 
         close ( stdout_procfd [ READ_FD  ] );
-        close ( stderr_prcofd [ READ_FD  ] );
+        close ( stdout_procfd [ WRITE_FD  ] ); //   try to be quiet
+        close ( stderr_procfd [ WRITE_FD ] ); // 
+        close ( stderr_procfd [ READ_FD  ] );
         }
     else if ( _pid > 0 )
         {
@@ -32,7 +32,7 @@ void Hfifo::run()
         _running = true;
 
         close ( stdout_procfd[ WRITE_FD ] );
-        close ( stderr_prcofd[ WRITE_FD ] );
+        close ( stderr_procfd[ WRITE_FD ] );
 
         sleep ( 1 ); // let child create pipe
         }
@@ -51,9 +51,9 @@ const int* Hfifo::pipeFd ( const int fd ) const
         case STDOUT_FILENO:
             return stdout_procfd;
         case STDERR_FILENO:
-            return stderr_prcofd;
+            return stderr_procfd;
         default:
-            return stderr_prcofd;
+            return stderr_procfd;
         }
 
     }

@@ -1,7 +1,8 @@
 #include "hfifo_test.hpp"
 
 
-HfifoTest::HfifoTest() {}
+HfifoTest::HfifoTest()
+{}
 
 
 void HfifoTest::init()
@@ -35,7 +36,7 @@ HfifoTest::HyperMap HfifoTest::run_test(const std::string& url)
         {
         getline ( in, input_line );
         if (input_line.length() < 4) continue; // suppose to be empty
-        std::cout << input_line << std::endl;
+       // std::cout << input_line << std::endl;
         fifo_input_.push_back(input_line);
         }
     while ( fpstream.in_avail() );
@@ -44,6 +45,7 @@ HfifoTest::HyperMap HfifoTest::run_test(const std::string& url)
         
     return results_;
 }
+
 
 void HfifoTest::process_data(const std::vector<std::string>& data)
 {
