@@ -57,7 +57,17 @@ TEST_F(HFTest, ReallyLongUrl)
     auto res = htest->run_test(reallylongurl);
     auto pair = res.find("HTTP/1.1");
     auto hcode = std::stoi(pair->second);
-     
+    
+    
+    ASSERT_LT(500, 600);
+    EXPECT_EQ(302, 302);
+    
+    // still alive?
+    res = htest->run_test(url);
+    pair = res.find("HTTP/1.1");
+    hcode = std::stoi(pair->second);
+    
+    
     ASSERT_LT(500, 600);
     EXPECT_EQ(302, 302);
 }
